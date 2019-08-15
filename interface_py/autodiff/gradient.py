@@ -11,7 +11,7 @@ def gradients(output_node, node_list):
     node_to_output_grad = {}
     reverse_topo_order = reversed(find_topo_sort([output_node]))
     for node in reverse_topo_order:
-        output_grad = sum_node_list(node_to_output_grads_list[node])
+        output_grad = sum_node_list(node_to_output_grads_list[node])  # 产生了该节点的梯度节点，新产生的节点。
         node_to_output_grad[node] = output_grad  # node 当前节点，output对当前节点的梯度，
 
         input_grads_list = node.op.gradient(node, output_grad)
@@ -20,5 +20,5 @@ def gradients(output_node, node_list):
                 node_to_output_grads_list[node.inputs[i]] = []
             node_to_output_grads_list[node.inputs[i]].append(input_grads_list[i])
 
-    grad_node_list = [node_to_output_grad[node] for node in node_list]
+    grad_node_list = [node_to_output_grad[node] for node in node_list]  # 返回需要梯度的几个节点的node
     return grad_node_list
